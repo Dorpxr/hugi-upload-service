@@ -8,8 +8,7 @@
   "scripts": {
     "build": "tsc -p .",
     "new": "node ./dist/post-service/inquire.js",
-    "run-job": "node ./dist/post-service/post-job.js",
-    "dev": "node ./dist/index.js"
+    "run-job": "node ./dist/post-service/post-job.js"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.3",

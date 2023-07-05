@@ -5,6 +5,7 @@ import { produceContentText } from "../openai/chat";
 import { downloadImage, produceImage } from "../openai/image";
 import { uploadImage } from "../s3/upload";
 import { addNewNotionPage } from "../notion/post";
+import { sendJobUpdate } from "../discord/job-update";
 
 const postJob = async () => {
   await signIn();
@@ -47,6 +48,8 @@ const postJob = async () => {
       .trim()
       .toLowerCase()
       .replaceAll(":", "")
+      .replaceAll(`"`, "")
+      .replaceAll("'", "")
       .replaceAll(",", "")
       .replaceAll(" ", "-")}.png`,
     body: imageBuffer,
@@ -65,6 +68,14 @@ const postJob = async () => {
   await updateQueueStatus({
     id: nextPrompt.data[0].id,
     status: 1,
+  });
+
+  await sendJobUpdate({
+    pageFeatureImage: imageUploadResult.imageUrl,
+    notionPageUrl:
+      "https://www.notion.so/Hugi-581bb8359199405eabe9173b04ee3bc2",
+    pageSummary: summary,
+    pageTitle: title,
   });
 };
 
