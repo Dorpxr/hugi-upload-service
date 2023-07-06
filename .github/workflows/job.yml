@@ -1,8 +1,9 @@
 name: "Hugi Upload Job"
 on:
-  schedule:
-    # every day 12:00 and 21:00 UCT
-    - cron: "00 12,21 * * *"
+  push
+  # schedule:
+  #   # every day 12:30 and 21:30 UCT
+  #   - cron: "0 12,21 * * *"
 
 jobs:
   generate_content:
