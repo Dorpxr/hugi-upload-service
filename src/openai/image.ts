@@ -26,6 +26,15 @@ export const produceImage = async ({ promptContent }: ProduceImageProps) => {
   }
 };
 
+export const formatFileName = (input: string) => {
+  const formatted = `${input
+    .trim()
+    .toLowerCase()
+    .replaceAll(" ", "-")
+    .replace(/[^a-zA-Z0-9 -]/g, "")}.png`;
+  return formatted;
+};
+
 type DownloadImageProps = {
   url: string;
 };

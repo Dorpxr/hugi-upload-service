@@ -2,7 +2,7 @@ import "dotenv/config";
 import { signIn } from "../supabase/auth";
 import { getNextInQueue, updateQueueStatus } from "../supabase/queue";
 import { produceContentText } from "../openai/chat";
-import { downloadImage, produceImage } from "../openai/image";
+import { downloadImage, formatFileName, produceImage } from "../openai/image";
 import { uploadImage } from "../s3/upload";
 import { addNewNotionPage } from "../notion/post";
 import { sendJobUpdate } from "../discord/job-update";
@@ -44,14 +44,7 @@ const postJob = async () => {
     throw Error(`imageBuffer is undefined`);
   }
   const imageUploadResult = await uploadImage({
-    fileName: `${title
-      .trim()
-      .toLowerCase()
-      .replaceAll(":", "")
-      .replaceAll(`"`, "")
-      .replaceAll("'", "")
-      .replaceAll(",", "")
-      .replaceAll(" ", "-")}.png`,
+    fileName: formatFileName(title),
     body: imageBuffer,
   });
   if (!imageUploadResult || !imageUploadResult?.imageUrl) {
