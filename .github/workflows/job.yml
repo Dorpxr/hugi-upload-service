@@ -1,9 +1,9 @@
 name: "Hugi Upload Job"
 on:
-  push
-  # schedule:
-  #   # every day 12:30 and 21:30 UCT
-  #   - cron: "0 12,21 * * *"
+  workflow_dispatch:
+  schedule:
+    # every day 12:30 and 21:30 UCT
+    - cron: "0 12,21 * * *"
 
 jobs:
   generate_content:
