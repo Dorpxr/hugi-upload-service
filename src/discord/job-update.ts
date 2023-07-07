@@ -1,17 +1,17 @@
 import axios from "axios";
 
 type Props = {
-  notionPageUrl: string;
-  pageFeatureImage: string;
-  pageTitle: string;
-  pageSummary: string;
+  linkUrl: string;
+  image: string;
+  title: string;
+  summary?: string;
 };
 
 export const sendJobUpdate = async ({
-  notionPageUrl,
-  pageFeatureImage,
-  pageTitle,
-  pageSummary,
+  linkUrl,
+  image,
+  title,
+  summary,
 }: Props) => {
   const discordUrl = process.env.DISCORD_WEBHOOK_URL;
   if (!discordUrl) {
@@ -21,11 +21,11 @@ export const sendJobUpdate = async ({
     content: `New generated post uploaded to notion! Please review page properties, make any adjustments, and change the status of the post to DONE when you are finished to publish this live.`,
     embeds: [
       {
-        title: pageTitle,
-        url: notionPageUrl,
-        description: pageSummary,
+        title: title,
+        url: linkUrl,
+        description: summary || null,
         image: {
-          url: pageFeatureImage,
+          url: image,
         },
       },
     ],

@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p .",
-    "new": "node ./dist/post-service/inquire.js",
-    "run-job": "node ./dist/post-service/post-job.js"
+    "new-job": "node ./dist/post-service/new-job.js",
+    "run-job": "node ./dist/post-service/run-job.js"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.3",

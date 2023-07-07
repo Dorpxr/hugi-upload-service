@@ -2,28 +2,22 @@ import { openaiClient } from "./client";
 import { writeFileSync } from "fs";
 import axios from "axios";
 
-type ProduceImageProps = {
-  promptContent: string;
-};
-
-export const produceImage = async ({ promptContent }: ProduceImageProps) => {
-  try {
-    const imageResult = await openaiClient.createImage({
-      prompt: promptContent,
-      size: "1024x1024",
-    });
-    if (process.env.DEBUG) {
-      writeFileSync(
-        "mocks/imageResponse.json",
-        JSON.stringify(imageResult.data, null, 2)
-      );
-    }
-    return imageResult.data.data[0].url;
-  } catch (err) {
-    console.error(
-      `Could not retrieve image response from openai. Error: ${err}`
+export const produceImage = async (prompt: string) => {
+  const imageResult = await openaiClient.createImage({
+    prompt: prompt,
+    size: "1024x1024",
+  });
+  if (process.env.DEBUG) {
+    writeFileSync(
+      "mocks/imageResponse.json",
+      JSON.stringify(imageResult.data, null, 2)
     );
   }
+  const imageUrl = imageResult?.data?.data[0]?.url;
+  if (!imageUrl) {
+    throw Error("Job failure: Did not get valid image from the model");
+  }
+  return imageUrl;
 };
 
 export const formatFileName = (input: string) => {
@@ -35,18 +29,13 @@ export const formatFileName = (input: string) => {
   return formatted;
 };
 
-type DownloadImageProps = {
-  url: string;
-};
-
-export const downloadImage = async ({ url }: DownloadImageProps) => {
-  try {
-    const res = await axios.get(url, {
-      responseType: "arraybuffer",
-    });
-    const buffer = Buffer.from(res.data, "base64");
-    return buffer;
-  } catch (err) {
-    console.error(`Failed to download image. Error: ${err}`);
+export const downloadImage = async (url: string) => {
+  const res = await axios.get(url, {
+    responseType: "arraybuffer",
+  });
+  if (!res.data) {
+    throw Error("Job failure: Issue downloading image");
   }
+  const buffer = Buffer.from(res.data, "base64");
+  return buffer;
 };

@@ -3,7 +3,7 @@ import inquirer from "inquirer";
 import { addToQueue } from "../supabase/queue";
 import { signIn } from "../supabase/auth";
 
-const addItem = async () => {
+const newJob = async () => {
   const answers = await inquirer.prompt([
     { name: "chatPrompt", message: "Chat text prompt:" },
     { name: "imagePrompt", message: "Image prompt:" },
@@ -19,4 +19,4 @@ const addItem = async () => {
   }
 };
 
-addItem();
+newJob();
