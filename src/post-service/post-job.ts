@@ -13,6 +13,9 @@ const postJob = async () => {
   if (!nextPrompt?.data) {
     throw Error("Job failure getting new prompt");
   }
+  if (nextPrompt.data.length === 0) {
+    throw Error("No pending jobs in the queue");
+  }
   const pageContent = await produceContentText({
     promptContent: nextPrompt?.data[0]?.chat_prompt,
   });
