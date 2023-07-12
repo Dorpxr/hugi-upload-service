@@ -1,7 +1,7 @@
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { s3Client } from "./client";
 import { jobConfig } from "../job.config";
-const { S3_BASE_URL, S3_BUCKET_NAME } = jobConfig;
+const { S3_BASE_URL, BUCKET_NAME } = jobConfig;
 
 type Props = {
   fileName: string;
@@ -10,7 +10,7 @@ type Props = {
 
 export const uploadImage = async ({ fileName, body }: Props) => {
   const command = new PutObjectCommand({
-    Bucket: S3_BUCKET_NAME,
+    Bucket: BUCKET_NAME,
     Key: fileName,
     Body: body,
   });
